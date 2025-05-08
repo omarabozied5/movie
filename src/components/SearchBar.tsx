@@ -1,0 +1,102 @@
+import React, { useEffect, useState } from "react";
+import useMovieStore from "../store/useMovieStore";
+import Input from "./common/Input";
+import Select from "./common/Select";
+import useDebounce from "../hooks/useDebounce";
+
+const SearchBar: React.FC = () => {
+  const {
+    fetchMovies,
+    searchQuery,
+    setSearchQuery,
+    searchForMovies,
+    genres,
+    selectedGenre,
+    setSelectedGenre,
+    loadGenres,
+  } = useMovieStore();
+
+  const [inputValue, setInputValue] = useState(searchQuery);
+  const debouncedSearchQuery = useDebounce(inputValue, 500);
+
+  useEffect(() => {
+    loadGenres();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (debouncedSearchQuery.trim()) {
+      setSearchQuery(debouncedSearchQuery);
+      searchForMovies(debouncedSearchQuery);
+    } else if (debouncedSearchQuery === "") {
+      setSearchQuery("");
+      fetchMovies(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchQuery, selectedGenre]);
+
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      searchForMovies(searchQuery);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, selectedGenre]);
+
+  const handleSearch = () => {
+    if (inputValue.trim()) {
+      setSearchQuery(inputValue);
+      searchForMovies(inputValue);
+    } else {
+      setSearchQuery("");
+      fetchMovies(1);
+    }
+  };
+
+  const handleGenreChange = (value: string) => {
+    const genreId = value ? parseInt(value, 10) : null;
+    setSelectedGenre(genreId);
+  };
+
+  const genreOptions = genres.map((genre) => ({
+    value: genre.id.toString(),
+    label: genre.name,
+  }));
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSearch();
+      }}
+      className="mb-8"
+    >
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex-grow">
+          <Input
+            value={searchQuery}
+            onValueChange={setInputValue}
+            placeholder="Search for movies..."
+            ariaLabel="Search movies"
+            onSubmit={handleSearch}
+          />
+        </div>
+
+        <div className="w-full md:w-1/3">
+          <Select
+            value={selectedGenre?.toString() || ""}
+            onValueChange={handleGenreChange}
+            options={genreOptions}
+            placeholder="All Genres"
+            ariaLabel="Filter by genre"
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary" aria-label="Search">
+          Search
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default SearchBar;
