@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import MovieCard from "../movie/MovieCard";
-import { Movie } from "../../types/index";
+import MovieCard from "../components/movie/MovieCard";
+import { Movie } from "../types/index";
 
 // Mock the api service
 jest.mock("../services/api", () => ({

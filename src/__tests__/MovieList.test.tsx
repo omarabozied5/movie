@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
-import MovieList from "../movie/MovieList";
-import useMovieStore from "../../store/useMovieStore";
+import MovieList from "../components/movie/MovieList";
+import useMovieStore from "../store/useMovieStore";
 
 // Mock the zustand store
 jest.mock("../store/useMovieStore");

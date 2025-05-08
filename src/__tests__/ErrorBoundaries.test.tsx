@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import ErrorBoundary from "../ErrorBoundaries";
+import ErrorBoundary from "../components/ErrorBoundaries";
 
 // Create a component that throws an error
 const ErrorComponent = ({ shouldThrow = false }) => {

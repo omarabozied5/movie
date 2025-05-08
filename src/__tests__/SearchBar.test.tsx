@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import SearchBar from "../SearchBar";
-import useMovieStore from "../../store/useMovieStore";
+import SearchBar from "../components/SearchBar";
+import useMovieStore from "../store/useMovieStore";
 
 // Mock the zustand store
 jest.mock("../store/useMovieStore");
