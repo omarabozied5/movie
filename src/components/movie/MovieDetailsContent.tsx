@@ -1,6 +1,8 @@
 import React from "react";
 import { MovieDetailsContentProps } from "../../types";
+import { useNavigate } from "react-router-dom";
 import { getImageUrl } from "../../services/api";
+import useMovieStore from "../../store/useMovieStore";
 import {
   formatRuntime,
   formatMoney,
@@ -10,7 +12,15 @@ import {
 const MovieDetailsContent: React.FC<MovieDetailsContentProps> = ({
   movieDetails,
 }) => {
+  const navigate = useNavigate();
+  const { setSelectedGenre } = useMovieStore();
+
   const formattedDate = formatDate(movieDetails.release_date);
+
+  const handleGenreClick = (genreId: number) => {
+    setSelectedGenre(genreId);
+    navigate("/");
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden animate-fade-in">
@@ -36,12 +46,13 @@ const MovieDetailsContent: React.FC<MovieDetailsContentProps> = ({
 
           <div className="flex flex-wrap gap-2 mt-4">
             {movieDetails.genres.map((genre) => (
-              <span
+              <button
                 key={genre.id}
-                className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm"
+                onClick={() => handleGenreClick(genre.id)}
+                className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm hover:bg-tertiary hover:text-white transition-colors duration-200 cursor-pointer"
               >
                 {genre.name}
-              </span>
+              </button>
             ))}
           </div>
 

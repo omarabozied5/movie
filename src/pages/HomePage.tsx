@@ -6,12 +6,22 @@ import ErrorBoundary from "../components/ErrorBoundaries";
 import useMovieStore from "../store/useMovieStore";
 
 const HomePage: React.FC = () => {
-  const { fetchMovies, currentPage, searchQuery, selectedGenre } =
-    useMovieStore();
+  const {
+    fetchMovies,
+    currentPage,
+    searchQuery,
+    selectedGenre,
+    genres,
+    loadGenres,
+  } = useMovieStore();
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === "/" && !searchQuery && selectedGenre === null) {
+    if (genres.length === 0) {
+      loadGenres();
+    }
+
+    if (location.pathname === "/") {
       fetchMovies(currentPage);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -21,7 +31,9 @@ const HomePage: React.FC = () => {
     if (searchQuery) {
       return `Search Results for "${searchQuery}"`;
     } else if (selectedGenre) {
-      return `Genre Movies`;
+      const genreName =
+        genres.find((g) => g.id === selectedGenre)?.name || "Genre";
+      return `${genreName} Movies`;
     } else {
       return "Popular Movies";
     }

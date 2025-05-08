@@ -17,7 +17,7 @@ const SearchBar: React.FC = () => {
   } = useMovieStore();
 
   const [inputValue, setInputValue] = useState(searchQuery);
-  const debouncedSearchQuery = useDebounce(inputValue, 500);
+  const debouncedSearchQuery = useDebounce(inputValue, 200);
 
   useEffect(() => {
     loadGenres();
@@ -25,15 +25,17 @@ const SearchBar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (debouncedSearchQuery.trim()) {
+    if (debouncedSearchQuery !== searchQuery) {
       setSearchQuery(debouncedSearchQuery);
-      searchForMovies(debouncedSearchQuery);
-    } else if (debouncedSearchQuery === "") {
-      setSearchQuery("");
-      fetchMovies(1);
+
+      if (debouncedSearchQuery.trim()) {
+        searchForMovies(debouncedSearchQuery);
+      } else {
+        fetchMovies(1);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearchQuery, selectedGenre]);
+  }, [debouncedSearchQuery]);
 
   useEffect(() => {
     if (searchQuery.trim()) {
@@ -73,7 +75,7 @@ const SearchBar: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-grow">
           <Input
-            value={searchQuery}
+            value={inputValue}
             onValueChange={setInputValue}
             placeholder="Search for movies..."
             ariaLabel="Search movies"
