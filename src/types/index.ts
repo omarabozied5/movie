@@ -72,3 +72,11 @@ export interface ErrorPageProps {
 export interface MovieDetailsContentProps {
   movieDetails: MovieDetails;
 }
+
+export interface ImageWithFallbackError {
+  src: string;
+  alt: string;
+  fallbackSrc?: string;
+  className?: string;
+  loading?: "lazy" | "eager";
+}
