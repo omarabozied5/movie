@@ -70,9 +70,9 @@ const SearchBar: React.FC = () => {
         e.preventDefault();
         handleSearch();
       }}
-      className="mb-8"
+      className="mb-6 sm:mb-8"
     >
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <div className="flex-grow">
           <Input
             value={inputValue}
@@ -80,20 +80,26 @@ const SearchBar: React.FC = () => {
             placeholder="Search for movies..."
             ariaLabel="Search movies"
             onSubmit={handleSearch}
+            className="text-sm sm:text-base"
           />
         </div>
 
-        <div className="w-full md:w-1/3">
+        <div className="w-full sm:w-1/3">
           <Select
             value={selectedGenre?.toString() || ""}
             onValueChange={handleGenreChange}
             options={genreOptions}
             placeholder="All Genres"
             ariaLabel="Filter by genre"
+            className="text-sm sm:text-base"
           />
         </div>
 
-        <button type="submit" className="btn btn-primary" aria-label="Search">
+        <button
+          type="submit"
+          className="btn btn-primary text-sm sm:text-base py-2"
+          aria-label="Search"
+        >
           Search
         </button>
       </div>

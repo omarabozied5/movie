@@ -35,8 +35,8 @@ const TrendingMoviesSlider: React.FC<TrendingMoviesSliderProps> = ({
   if (!movies.length) return null;
 
   return (
-    <div className="relative mb-12 rounded-xl overflow-hidden shadow-lg bg-gray-900">
-      <div className="relative h-96 md:h-[450px] overflow-hidden">
+    <div className="relative mb-6 sm:mb-8 md:mb-12 rounded-xl overflow-hidden shadow-lg bg-gray-900">
+      <div className="relative h-64 sm:h-80 md:h-96 lg:h-[450px] overflow-hidden">
         {movies.map((movie, index) => (
           <div
             key={movie.id}
@@ -59,39 +59,39 @@ const TrendingMoviesSlider: React.FC<TrendingMoviesSliderProps> = ({
             </div>
 
             <div className="relative z-10 flex h-full">
-              <div className="container mx-auto px-6 flex flex-col md:flex-row items-center h-full">
-                <div className="md:w-1/2 text-white p-6">
+              <div className="container mx-auto px-3 sm:px-6 flex flex-col md:flex-row items-center h-full">
+                <div className="md:w-1/2 text-white p-3 sm:p-6">
                   <div className="animate-fade-in">
-                    <span className="inline-block bg-tertiary text-white text-xs px-2 py-1 rounded mb-4">
+                    <span className="inline-block bg-tertiary text-white text-xs px-2 py-1 rounded mb-2 sm:mb-4">
                       TRENDING
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">
                       {movie.title}
                     </h2>
-                    <p className="text-gray-300 mb-4">
+                    <p className="text-xs sm:text-sm text-gray-300 mb-2 sm:mb-4">
                       {formatDate(movie.release_date)}
                     </p>
-                    <div className="flex items-center mb-4">
-                      <span className="inline-flex items-center bg-primary text-white rounded-md px-2 py-1 text-sm font-medium mr-2">
+                    <div className="flex items-center mb-2 sm:mb-4">
+                      <span className="inline-flex items-center bg-primary text-white rounded-md px-1 py-0.5 sm:px-2 sm:py-1 text-xs sm:text-sm font-medium mr-2">
                         ★ {movie.vote_average.toFixed(1)}
                       </span>
-                      <span className="text-gray-300 text-sm">
+                      <span className="text-gray-300 text-xs sm:text-sm">
                         {movie.vote_count.toLocaleString()} votes
                       </span>
                     </div>
-                    <p className="text-gray-200 mb-6 line-clamp-3">
+                    <p className="text-xs sm:text-sm text-gray-200 mb-3 sm:mb-6 line-clamp-2 sm:line-clamp-3">
                       {movie.overview}
                     </p>
                     <Link
                       to={`/movie/${movie.id}`}
-                      className="btn bg-tertiary hover:bg-opacity-90 text-white transition-all duration-300"
+                      className="btn bg-tertiary hover:bg-opacity-90 text-white transition-all duration-300 text-xs sm:text-sm py-1 sm:py-2"
                     >
                       View Details
                     </Link>
                   </div>
                 </div>
-                <div className="hidden md:block md:w-1/2 p-6">
-                  <div className="relative h-64 md:h-80 w-48 md:w-56 mx-auto animate-fade-in shadow-xl">
+                <div className="hidden md:block md:w-1/2 p-3 sm:p-6">
+                  <div className="relative h-40 sm:h-52 md:h-64 lg:h-80 w-32 sm:w-40 md:w-48 lg:w-56 mx-auto animate-fade-in shadow-xl">
                     <img
                       src={getImageUrl(movie.poster_path, "w500")}
                       alt={`${movie.title} poster`}
@@ -105,10 +105,9 @@ const TrendingMoviesSlider: React.FC<TrendingMoviesSliderProps> = ({
         ))}
       </div>
 
-      {/* Navigation arrows */}
       <button
         onClick={handlePrevSlide}
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all duration-300"
+        className="absolute top-1/2 left-2 sm:left-4 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full z-20 transition-all duration-300"
         aria-label="Previous slide"
       >
         <svg
@@ -117,7 +116,7 @@ const TrendingMoviesSlider: React.FC<TrendingMoviesSliderProps> = ({
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-4 h-4 sm:w-6 sm:h-6"
         >
           <path
             strokeLinecap="round"
@@ -128,7 +127,7 @@ const TrendingMoviesSlider: React.FC<TrendingMoviesSliderProps> = ({
       </button>
       <button
         onClick={handleNextSlide}
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full z-20 transition-all duration-300"
+        className="absolute top-1/2 right-2 sm:right-4 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full z-20 transition-all duration-300"
         aria-label="Next slide"
       >
         <svg
@@ -137,7 +136,7 @@ const TrendingMoviesSlider: React.FC<TrendingMoviesSliderProps> = ({
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-4 h-4 sm:w-6 sm:h-6"
         >
           <path
             strokeLinecap="round"
@@ -147,13 +146,12 @@ const TrendingMoviesSlider: React.FC<TrendingMoviesSliderProps> = ({
         </svg>
       </button>
 
-      {/* Dots indicator */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+      <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 flex justify-center gap-1 sm:gap-2 z-20">
         {movies.map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
               index === currentSlide
                 ? "bg-tertiary scale-125"
                 : "bg-white/50 hover:bg-white/80"

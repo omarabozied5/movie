@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import MovieCard from "./MovieCard";
 import Loader from "../common/Loader";
 import Pagination from "../common/Pagination";
@@ -7,11 +7,29 @@ import useMovieStore from "../../store/useMovieStore";
 const MovieList: React.FC = () => {
   const { movies, isLoading, error, currentPage, totalPages, setCurrentPage } =
     useMovieStore();
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (listRef.current) {
+      const children = listRef.current.querySelectorAll(".card");
+      children.forEach((child, index) => {
+        (child as HTMLElement).style.opacity = "0";
+        (child as HTMLElement).style.transform = "translateY(20px)";
+
+        setTimeout(() => {
+          (child as HTMLElement).style.transition =
+            "opacity 0.5s ease, transform 0.5s ease";
+          (child as HTMLElement).style.opacity = "1";
+          (child as HTMLElement).style.transform = "translateY(0)";
+        }, 50 * index);
+      });
+    }
+  }, [movies]);
 
   if (error) {
     return (
-      <div className="text-center text-red-500 py-8">
-        <p>Error: {error}</p>
+      <div className="text-center text-red-500 py-4 sm:py-8">
+        <p className="text-sm sm:text-base">Error: {error}</p>
       </div>
     );
   }
@@ -22,8 +40,8 @@ const MovieList: React.FC = () => {
 
   if (movies.length === 0) {
     return (
-      <div className="text-center py-8">
-        <p className="text-gray-500">
+      <div className="text-center py-4 sm:py-8">
+        <p className="text-sm sm:text-base text-gray-500">
           No movies found. Try a different search.
         </p>
       </div>
@@ -32,7 +50,10 @@ const MovieList: React.FC = () => {
 
   return (
     <div className="animate-slide-in">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      <div
+        ref={listRef}
+        className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 xs:gap-3 sm:gap-4 md:gap-5 lg:gap-6"
+      >
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}

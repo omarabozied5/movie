@@ -13,9 +13,9 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const getPageNumbers = () => {
     const pages = [];
-    const maxPagesToShow = 5;
+    const maxPagesToShow = window.innerWidth < 640 ? 3 : 5; // Show fewer pages on mobile
 
-    let startPage = Math.max(1, currentPage - 2);
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
     if (endPage - startPage + 1 < maxPagesToShow) {
@@ -30,11 +30,11 @@ const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-center my-8 gap-2">
+    <div className="flex justify-center my-6 sm:my-8 gap-1 sm:gap-2">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`btn ${
+        className={`btn px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm ${
           currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "btn-primary"
         }`}
         aria-label="Previous page"
@@ -42,13 +42,18 @@ const Pagination: React.FC<PaginationProps> = ({
         &laquo;
       </button>
 
-      {currentPage > 3 && (
+      {currentPage > 3 && window.innerWidth >= 640 && (
         <>
-          <button onClick={() => onPageChange(1)} className="btn btn-primary">
+          <button
+            onClick={() => onPageChange(1)}
+            className="btn btn-primary px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm"
+          >
             1
           </button>
           {currentPage > 4 && (
-            <span className="flex items-center px-2">...</span>
+            <span className="flex items-center px-1 sm:px-2 text-xs sm:text-sm">
+              ...
+            </span>
           )}
         </>
       )}
@@ -57,7 +62,7 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`btn ${
+          className={`btn px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm ${
             page === currentPage ? "bg-primary text-white" : "btn-primary"
           }`}
         >
@@ -65,14 +70,16 @@ const Pagination: React.FC<PaginationProps> = ({
         </button>
       ))}
 
-      {currentPage < totalPages - 2 && (
+      {currentPage < totalPages - 2 && window.innerWidth >= 640 && (
         <>
           {currentPage < totalPages - 3 && (
-            <span className="flex items-center px-2">...</span>
+            <span className="flex items-center px-1 sm:px-2 text-xs sm:text-sm">
+              ...
+            </span>
           )}
           <button
             onClick={() => onPageChange(totalPages)}
-            className="btn btn-primary"
+            className="btn btn-primary px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm"
           >
             {totalPages}
           </button>
@@ -82,7 +89,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`btn ${
+        className={`btn px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm ${
           currentPage === totalPages
             ? "bg-gray-300 cursor-not-allowed"
             : "btn-primary"
