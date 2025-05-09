@@ -220,7 +220,7 @@ const MovieDetailsExample = ({ movieId }) => {
 3. Create a `.env` file with the following variables:
    ```
    REACT_APP_BASE_URL=https://api.themoviedb.org/3
-   REACT_APP_API_KEY=yossef_api_key_ // You need to register at The Movie Database (TMDB) to get your own API key.
+   REACT_APP_API_KEY= YOUSSEF_api_key_ // You need to register at The Movie Database (TMDB) to get your own API key.
    REACT_APP_IMAGE_BASE_URL=https://image.tmdb.org/t/p
    ```
 4. Start the development server:
