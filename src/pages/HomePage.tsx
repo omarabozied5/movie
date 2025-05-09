@@ -2,12 +2,17 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import MovieList from "../components/movie/MovieList";
+import TrendingMoviesSlider from "../components/movie/TrendingMovieSlider";
 import ErrorBoundary from "../components/ErrorBoundaries";
 import useMovieStore from "../store/useMovieStore";
+import Loader from "../components/common/Loader";
 
 const HomePage: React.FC = () => {
   const {
     fetchMovies,
+    fetchTrending,
+    trendingMovies,
+    isTrendingLoading,
     currentPage,
     searchQuery,
     selectedGenre,
@@ -23,6 +28,7 @@ const HomePage: React.FC = () => {
 
     if (location.pathname === "/") {
       fetchMovies(currentPage);
+      fetchTrending("day", 10); // Fetch 10 trending movies
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
@@ -41,10 +47,27 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-tertiary mb-6">
-        {getPageTitle()}
-      </h1>
       <ErrorBoundary>
+        {/* Trending Movies Slider - Only show when not searching or filtering */}
+        {!searchQuery && !selectedGenre && (
+          <>
+            {isTrendingLoading ? (
+              <div className="mb-12">
+                <Loader />
+              </div>
+            ) : trendingMovies.length > 0 ? (
+              <TrendingMoviesSlider
+                movies={trendingMovies}
+                autoplayDelay={6000} // 6 seconds between slides
+              />
+            ) : null}
+          </>
+        )}
+
+        <h1 className="text-3xl font-bold text-primary mb-6">
+          {getPageTitle()}
+        </h1>
+
         <SearchBar />
         <MovieList />
       </ErrorBoundary>

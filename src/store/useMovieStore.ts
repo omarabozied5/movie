@@ -5,11 +5,13 @@ import {
   fetchMovieDetails,
   fetchGenres,
   fetchMoviesByGenre,
+  fetchTrendingMovies,
 } from "../services/api";
 import { Movie, MovieDetails, Genre } from "../types";
 
 interface MovieState {
   movies: Movie[];
+  trendingMovies: Movie[];
   movieDetails: MovieDetails | null;
   genres: Genre[];
   selectedGenre: number | null;
@@ -17,10 +19,12 @@ interface MovieState {
   currentPage: number;
   totalPages: number;
   isLoading: boolean;
+  isTrendingLoading: boolean;
   error: string | null;
 
   // Actions
   fetchMovies: (page?: number) => Promise<void>;
+  fetchTrending: (timeWindow?: "day" | "week", limit?: number) => Promise<void>;
   searchForMovies: (query: string, page?: number) => Promise<void>;
   getMovieDetails: (movieId: number) => Promise<void>;
   loadGenres: () => Promise<void>;
@@ -32,6 +36,7 @@ interface MovieState {
 
 const useMovieStore = create<MovieState>((set, get) => ({
   movies: [],
+  trendingMovies: [],
   movieDetails: null,
   genres: [],
   selectedGenre: null,
@@ -39,6 +44,7 @@ const useMovieStore = create<MovieState>((set, get) => ({
   currentPage: 1,
   totalPages: 1,
   isLoading: false,
+  isTrendingLoading: false,
   error: null,
 
   fetchMovies: async (page = 1) => {
@@ -67,6 +73,18 @@ const useMovieStore = create<MovieState>((set, get) => ({
           error instanceof Error ? error.message : "Failed to fetch movies",
         isLoading: false,
       });
+    }
+  },
+
+  fetchTrending: async (timeWindow = "day", limit = 10) => {
+    try {
+      set({ isTrendingLoading: true, error: null });
+      const trendingMovies = await fetchTrendingMovies(timeWindow, limit);
+      set({ trendingMovies, isTrendingLoading: false });
+    } catch (error) {
+      console.error("Failed to fetch trending movies:", error);
+      set({ isTrendingLoading: false });
+      // Don't set error state here to avoid disrupting the main movie list
     }
   },
 

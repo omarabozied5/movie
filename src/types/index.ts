@@ -2,6 +2,7 @@ export interface Movie {
   id: number;
   title: string;
   poster_path: string | null;
+  backdrop_path: string | null;
   release_date: string;
   overview: string;
   vote_average: number;
@@ -79,4 +80,19 @@ export interface ImageWithFallbackError {
   fallbackSrc?: string;
   className?: string;
   loading?: "lazy" | "eager";
+}
+
+export interface TrendingMoviesSliderProps {
+  movies: Movie[];
+  autoplayDelay?: number;
+}
+
+export interface MovieListProps {
+  movies: Movie[];
+  onMovieClick: (movie: Movie) => void;
+}
+
+export interface MovieListItemProps {
+  movie: Movie;
+  onMovieClick: (movie: Movie) => void;
 }

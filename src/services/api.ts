@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MovieDetails, MoviesResponse, Genre } from "../types";
+import { MovieDetails, MoviesResponse, Genre, Movie } from "../types";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -13,6 +13,16 @@ export const fetchPopularMovies = async (page = 1): Promise<MoviesResponse> => {
     params: { page },
   });
   return response.data;
+};
+
+export const fetchTrendingMovies = async (
+  timeWindow: "day" | "week" = "day",
+  limit = 10
+): Promise<Movie[]> => {
+  const response = await api.get<MoviesResponse>(
+    `/trending/movie/${timeWindow}`
+  );
+  return response.data.results.slice(0, limit);
 };
 
 export const searchMovies = async (
