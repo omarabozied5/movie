@@ -1,7 +1,7 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/setupTests.js"], // Changed path to match your file
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
     "^@/(.*)$": "<rootDir>/src/$1",
@@ -24,4 +24,6 @@ module.exports = {
       statements: 70,
     },
   },
+  // Add these lines to help Jest resolve modules
+  moduleDirectories: ["node_modules", "src"],
 };

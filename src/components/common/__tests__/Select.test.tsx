@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-node-access */
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import Select from "../components/common/Select";
+import Select from "../Select";
 
 describe("Select Component", () => {
   const mockOnValueChange = jest.fn();
