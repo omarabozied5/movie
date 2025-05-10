@@ -75,3 +75,14 @@ export const getImageUrl = (
 export interface MovieDetailsContentProps {
   movieDetails: MovieDetails;
 }
+
+export const fetchSimilarMovies = async (
+  movieId: number,
+  page = 1,
+  limit = 6
+): Promise<Movie[]> => {
+  const response = await api.get<MoviesResponse>(`/movie/${movieId}/similar`, {
+    params: { page },
+  });
+  return response.data.results.slice(0, limit);
+};

@@ -252,4 +252,4 @@ Contributions are welcome! Please submit a Pull Request, and i look forward to y
 
 ## License
 
-This project is a task where I did my best—the license belongs to me.
+The license belongs to me - OMAR ABUZEID

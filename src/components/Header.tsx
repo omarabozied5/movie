@@ -24,13 +24,17 @@ const Header: React.FC = () => {
 
           <nav>
             <ul className="flex space-x-6">
-              <li className="mt-1">
+              <li>
                 <Link
                   to="/"
                   onClick={handleHomeClick}
                   className="hover:text-tertiary text-xl font-bold transition-colors duration-200 "
                 >
-                  Home
+                  <img
+                    src="/images/homelogo.png"
+                    className="w-10 h-10 object-contain bg-white rounded-full p-1 hover:bg-tertiary"
+                    alt="telda Logo"
+                  />
                 </Link>
               </li>
               <li>

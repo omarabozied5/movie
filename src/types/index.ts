@@ -96,3 +96,8 @@ export interface MovieListItemProps {
   movie: Movie;
   onMovieClick: (movie: Movie) => void;
 }
+
+export interface SimilarMoviesProps {
+  movies: Movie[];
+  isLoading: boolean;
+}

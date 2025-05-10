@@ -1,3 +1,4 @@
+// Update MovieDetailPage.tsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import useMovieStore from "../store/useMovieStore";
@@ -8,15 +9,26 @@ import {
   ErrorState,
   NotFoundState,
 } from "../components/movie/MovieDetailsState";
+import SimilarMovies from "../components/movie/SimilarMovies";
 
 const MovieDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { getMovieDetails, movieDetails, isLoading, error } = useMovieStore();
+  const {
+    getMovieDetails,
+    movieDetails,
+    isLoading,
+    error,
+    fetchSimilarMovies,
+    similarMovies,
+    isSimilarLoading,
+  } = useMovieStore();
   const [isPageVisible, setIsPageVisible] = useState(false);
 
   useEffect(() => {
     if (id) {
-      getMovieDetails(parseInt(id, 10));
+      const movieId = parseInt(id, 10);
+      getMovieDetails(movieId);
+      fetchSimilarMovies(movieId);
     }
 
     const timer = setTimeout(() => {
@@ -56,7 +68,6 @@ const MovieDetailPage: React.FC = () => {
             </span>
           </Link>
 
-          {/* Breadcrumb navigation */}
           <div className="ml-auto text-sm text-gray-500 hidden sm:flex items-center">
             <Link
               to="/"
@@ -72,6 +83,8 @@ const MovieDetailPage: React.FC = () => {
         </div>
 
         <MovieDetailsContent movieDetails={movieDetails} />
+
+        <SimilarMovies movies={similarMovies} isLoading={isSimilarLoading} />
       </div>
     </ErrorBoundary>
   );

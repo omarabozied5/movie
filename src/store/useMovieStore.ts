@@ -6,6 +6,7 @@ import {
   fetchGenres,
   fetchMoviesByGenre,
   fetchTrendingMovies,
+  fetchSimilarMovies,
 } from "../services/api";
 import { Movie, MovieDetails, Genre } from "../types";
 
@@ -21,6 +22,8 @@ interface MovieState {
   isLoading: boolean;
   isTrendingLoading: boolean;
   error: string | null;
+  similarMovies: Movie[];
+  isSimilarLoading: boolean;
 
   // Actions
   fetchMovies: (page?: number) => Promise<void>;
@@ -32,11 +35,14 @@ interface MovieState {
   setSearchQuery: (query: string) => void;
   setCurrentPage: (page: number) => void;
   resetFilters: () => void;
+  fetchSimilarMovies: (movieId: number, limit?: number) => Promise<void>;
 }
 
 const useMovieStore = create<MovieState>((set, get) => ({
   movies: [],
   trendingMovies: [],
+  similarMovies: [],
+  isSimilarLoading: false,
   movieDetails: null,
   genres: [],
   selectedGenre: null,
@@ -85,6 +91,16 @@ const useMovieStore = create<MovieState>((set, get) => ({
       console.error("Failed to fetch trending movies:", error);
       set({ isTrendingLoading: false });
       // Don't set error state here to avoid disrupting the main movie list
+    }
+  },
+  fetchSimilarMovies: async (movieId, limit = 6) => {
+    try {
+      set({ isSimilarLoading: true, error: null });
+      const similarMovies = await fetchSimilarMovies(movieId, 1, limit);
+      set({ similarMovies, isSimilarLoading: false });
+    } catch (error) {
+      console.error("Failed to fetch similar movies:", error);
+      set({ isSimilarLoading: false });
     }
   },
 
