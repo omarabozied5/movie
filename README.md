@@ -16,6 +16,7 @@ Although it was a small project, I was excited to work on it. It allowed me to p
   - Budget and revenue information
   - Production companies
   - Overview and tagline
+  - Similar Movie :Discover movies similar to the one currently viewed, based on its genre and tagline theme.
 - **Responsive design**: Optimized for all devices from mobile to desktop
 - **Pagination**: Navigate through multiple pages of results
 - **Error handling**: Comprehensive error boundaries and informative error pages
