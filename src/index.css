@@ -1,28 +1,27 @@
+/* 
+ * TAILWIND BASE IMPORTS
+ * --------------------
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* 
+ * BASE STYLES
+ * -----------
+ */
 @layer base {
   body {
     @apply bg-gray-100 text-gray-900;
   }
 }
-@keyframes loading-bar {
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-.animate-loading-bar {
-  animation: loading-bar 1.5s infinite;
-}
 
+/* 
+ * COMPONENT DEFINITIONS
+ * --------------------
+ */
 @layer components {
+  /* Buttons */
   .btn {
     @apply px-4 py-2 rounded-md transition-all duration-200 focus:outline-none;
   }
@@ -31,16 +30,23 @@
     @apply bg-tertiary text-white hover:bg-opacity-90;
   }
 
+  /* Cards */
   .card {
     @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02];
   }
 
+  /* Form elements */
   .input {
     @apply w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent;
   }
 }
 
-/* Animation for slider elements */
+/* 
+ * ANIMATIONS
+ * ----------
+ */
+
+/* Fade animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -56,6 +62,7 @@
   animation: fadeIn 0.8s ease forwards;
 }
 
+/* Slide animations */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -71,7 +78,38 @@
   animation: slideIn 0.5s ease forwards;
 }
 
-/* Enhanced animation effects */
+/* Loading animations */
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.5s infinite;
+}
+
+@keyframes subtle-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 1.5s infinite;
+}
+
+/* Pulse animations */
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -88,6 +126,24 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
+/* Float animations */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.hover-float:hover {
+  animation: floatUp 0.5s ease-out;
+}
+
+/* Shimmer effect */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -108,23 +164,12 @@
   animation: shimmer 2s infinite;
 }
 
-@keyframes floatUp {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
+/* 
+ * SPECIALIZED EFFECTS
+ * -------------------
+ */
 
-.hover-float:hover {
-  animation: floatUp 0.5s ease-out;
-}
-
-/* Staggered children animation */
+/* Staggered animation for lists */
 .stagger-children > * {
   opacity: 0;
   animation: fadeIn 0.5s ease forwards;
@@ -161,7 +206,7 @@
   animation-delay: 1s;
 }
 
-/* 3D tilt effect */
+/* 3D Effects */
 .tilt-effect {
   transform-style: preserve-3d;
   perspective: 1000px;
@@ -172,7 +217,7 @@
   transform: rotateX(5deg) rotateY(5deg);
 }
 
-/* Shine effect on cards */
+/* Shine hover effect */
 .shine-effect {
   position: relative;
   overflow: hidden;
@@ -199,50 +244,26 @@
   top: 100%;
   left: 100%;
 }
-/* Custom loading bar animation */
-@keyframes loading-bar {
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
 
-.animate-loading-bar {
-  animation: loading-bar 1.5s infinite;
-}
+/* 
+ * UI TRANSITIONS
+ * --------------
+ */
 
-/* Add subtle pulsation effect for waiting state */
-@keyframes subtle-pulse {
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.animate-subtle-pulse {
-  animation: subtle-pulse 1.5s infinite;
-}
-
-/* Add a slight fade effect for content during page transitions */
+/* Page transitions */
 .page-transition-fade {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Custom pagination transition */
+/* Pagination transitions */
 .pagination-item-transition {
   transition: all 0.3s ease;
 }
+
 .pagination-item-transition:hover {
   transform: translateY(-2px);
 }
+
 .pagination-item-active {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
