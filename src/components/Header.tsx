@@ -17,9 +17,12 @@ const Header: React.FC = () => {
           <Link
             to="/"
             onClick={handleHomeClick}
-            className="text-2xl font-bold hover:text-tertiary transition-colors duration-200"
+            className=" text-base sm:text-lg md:text-xl lg:text-2xl font-bold hover:text-tertiary transition-colors duration-200"
           >
-            <span className="text-tertiary">Explore</span> Movies
+            <span className="text-tertiary text-base sm:text-lg md:text-xl lg:text-2xl font-bold ">
+              Explore
+            </span>{" "}
+            Movies
           </Link>
 
           <nav>
@@ -32,7 +35,7 @@ const Header: React.FC = () => {
                 >
                   <img
                     src="/images/homelogo.png"
-                    className="w-10 h-10 object-contain bg-white rounded-full p-1 hover:bg-tertiary"
+                    className="w-7 h-7 object-contain bg-white rounded-full p-1 hover:bg-tertiary"
                     alt="telda Logo"
                   />
                 </Link>
@@ -46,7 +49,7 @@ const Header: React.FC = () => {
                 >
                   <img
                     src="/images/teldalogo.png"
-                    className="w-10 h-10 object-contain bg-white rounded-full p-1 hover:bg-tertiary"
+                    className="w-7 h-7 object-contain bg-white rounded-full p-1 hover:bg-tertiary"
                     alt="telda Logo"
                   />
                 </a>

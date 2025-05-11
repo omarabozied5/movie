@@ -7,6 +7,20 @@
     @apply bg-gray-100 text-gray-900;
   }
 }
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+.animate-loading-bar {
+  animation: loading-bar 1.5s infinite;
+}
 
 @layer components {
   .btn {
@@ -184,4 +198,51 @@
 .shine-effect:hover::after {
   top: 100%;
   left: 100%;
+}
+/* Custom loading bar animation */
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.5s infinite;
+}
+
+/* Add subtle pulsation effect for waiting state */
+@keyframes subtle-pulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 1.5s infinite;
+}
+
+/* Add a slight fade effect for content during page transitions */
+.page-transition-fade {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Custom pagination transition */
+.pagination-item-transition {
+  transition: all 0.3s ease;
+}
+.pagination-item-transition:hover {
+  transform: translateY(-2px);
+}
+.pagination-item-active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

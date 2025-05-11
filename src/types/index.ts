@@ -46,6 +46,13 @@ export interface InputProps {
   onSubmit?: () => void;
 }
 
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  isLoading?: boolean;
+}
+
 export interface Option {
   value: string;
   label: string;

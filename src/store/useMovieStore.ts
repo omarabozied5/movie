@@ -10,6 +10,8 @@ import {
 } from "../services/api";
 import { Movie, MovieDetails, Genre } from "../types";
 
+const MIN_LOADING_TIME = 600;
+
 interface MovieState {
   movies: Movie[];
   trendingMovies: Movie[];
@@ -24,6 +26,7 @@ interface MovieState {
   error: string | null;
   similarMovies: Movie[];
   isSimilarLoading: boolean;
+  isPaginationDebounced: boolean;
 
   // Actions
   fetchMovies: (page?: number) => Promise<void>;
@@ -52,11 +55,14 @@ const useMovieStore = create<MovieState>((set, get) => ({
   isLoading: false,
   isTrendingLoading: false,
   error: null,
+  isPaginationDebounced: false,
 
   fetchMovies: async (page = 1) => {
     try {
       set({ isLoading: true, error: null });
       const { selectedGenre, searchQuery } = get();
+
+      const startTime = Date.now();
 
       let data;
       if (selectedGenre) {
@@ -65,6 +71,14 @@ const useMovieStore = create<MovieState>((set, get) => ({
         data = await searchMovies(searchQuery, page);
       } else {
         data = await fetchPopularMovies(page);
+      }
+
+      const elapsedTime = Date.now() - startTime;
+
+      if (elapsedTime < MIN_LOADING_TIME) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, MIN_LOADING_TIME - elapsedTime)
+        );
       }
 
       set({
@@ -90,14 +104,13 @@ const useMovieStore = create<MovieState>((set, get) => ({
     } catch (error) {
       console.error("Failed to fetch trending movies:", error);
       set({ isTrendingLoading: false });
-      // Don't set error state here to avoid disrupting the main movie list
     }
   },
   fetchSimilarMovies: async (movieId, limit = 6) => {
     try {
       set({ isSimilarLoading: true, error: null });
       const similarMovies = await fetchSimilarMovies(movieId, 1, limit);
-      set({ similarMovies, isSimilarLoading: false });
+      set({ isSimilarLoading: false, similarMovies });
     } catch (error) {
       console.error("Failed to fetch similar movies:", error);
       set({ isSimilarLoading: false });
@@ -117,7 +130,17 @@ const useMovieStore = create<MovieState>((set, get) => ({
   getMovieDetails: async (movieId) => {
     try {
       set({ isLoading: true, error: null, movieDetails: null });
+      const startTime = Date.now();
+
       const details = await fetchMovieDetails(movieId);
+
+      const elapsedTime = Date.now() - startTime;
+      if (elapsedTime < MIN_LOADING_TIME) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, MIN_LOADING_TIME - elapsedTime)
+        );
+      }
+
       set({ movieDetails: details, isLoading: false });
     } catch (error) {
       set({
@@ -152,8 +175,17 @@ const useMovieStore = create<MovieState>((set, get) => ({
   },
 
   setCurrentPage: (page) => {
-    set({ currentPage: page });
+    const { currentPage, isPaginationDebounced } = get();
+
+    if (isPaginationDebounced || page === currentPage) return;
+
+    set({ isPaginationDebounced: true, currentPage: page });
+
     get().fetchMovies(page);
+
+    setTimeout(() => {
+      set({ isPaginationDebounced: false });
+    }, 1000);
   },
 
   resetFilters: () => {

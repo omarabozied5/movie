@@ -6,6 +6,7 @@ import TrendingMoviesSlider from "../components/movie/TrendingMovieSlider";
 import ErrorBoundary from "../components/ErrorBoundaries";
 import useMovieStore from "../store/useMovieStore";
 import Loader from "../components/common/Loader";
+import PageTransition from "../components/common/PageTransition";
 
 const HomePage: React.FC = () => {
   const {
@@ -18,6 +19,7 @@ const HomePage: React.FC = () => {
     selectedGenre,
     genres,
     loadGenres,
+    isLoading,
   } = useMovieStore();
   const location = useLocation();
 
@@ -47,6 +49,8 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <PageTransition isLoading={isLoading} />
+
       <ErrorBoundary>
         {/* Trending Movies Slider - Only show when not searching or filtering */}
         {!searchQuery && !selectedGenre && (

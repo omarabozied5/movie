@@ -10,7 +10,6 @@ const MovieList: React.FC = () => {
   const listRef = useRef<HTMLDivElement>(null);
   const [placeholderCount, setPlaceholderCount] = useState(0);
 
-  // Function to determine the current grid columns based on responsive breakpoints
   const calculateGridColumns = () => {
     const width = window.innerWidth;
     if (width >= 1280) return 6; // xl
@@ -21,7 +20,6 @@ const MovieList: React.FC = () => {
     return 2; // default for the smallest screens
   };
 
-  // Calculate needed placeholders whenever movies or window size changes
   useEffect(() => {
     const updatePlaceholders = () => {
       if (movies.length === 0) return;
@@ -29,19 +27,15 @@ const MovieList: React.FC = () => {
       const columns = calculateGridColumns();
       const remainder = movies.length % columns;
 
-      // Only add placeholders if we need to complete the row
       setPlaceholderCount(remainder === 0 ? 0 : columns - remainder);
     };
 
-    // Set initial placeholders
     updatePlaceholders();
 
-    // Update placeholders when window is resized
     window.addEventListener("resize", updatePlaceholders);
     return () => window.removeEventListener("resize", updatePlaceholders);
   }, [movies]);
 
-  // Animation for cards
   useEffect(() => {
     if (listRef.current) {
       const children = listRef.current.querySelectorAll(
@@ -85,21 +79,30 @@ const MovieList: React.FC = () => {
 
   return (
     <div className="animate-slide-in">
+      {isLoading && movies.length > 0 && (
+        <div className="fixed top-0 left-0 w-full z-50">
+          <div className="h-1 bg-tertiary animate-pulse"></div>
+        </div>
+      )}
+
       <div
         ref={listRef}
-        className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 xs:gap-3 sm:gap-4 md:gap-5 lg:gap-6"
+        className={`grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 xs:gap-3 sm:gap-4 md:gap-5 lg:gap-6 ${
+          isLoading && movies.length > 0
+            ? "opacity-70 transition-opacity duration-300"
+            : ""
+        }`}
       >
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
 
-        {/* Add placeholder items to ensure even rows */}
         {Array.from({ length: placeholderCount }).map((_, index) => (
           <div
             key={`placeholder-${index}`}
             className="card placeholder invisible"
             aria-hidden="true"
-            style={{ minHeight: "1px" }} // Ensure it takes space but doesn't appear
+            style={{ minHeight: "1px" }}
           ></div>
         ))}
       </div>
@@ -109,6 +112,7 @@ const MovieList: React.FC = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
+          isLoading={isLoading}
         />
       )}
     </div>
