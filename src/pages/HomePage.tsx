@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
 
     if (location.pathname === "/") {
       fetchMovies(currentPage);
-      fetchTrending("day", 10); // Fetch 10 trending movies
+      fetchTrending("day", 10);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
@@ -52,7 +52,6 @@ const HomePage: React.FC = () => {
       <PageTransition isLoading={isLoading} />
 
       <ErrorBoundary>
-        {/* Trending Movies Slider - Only show when not searching or filtering */}
         {!searchQuery && !selectedGenre && (
           <>
             {isTrendingLoading ? (
@@ -62,7 +61,7 @@ const HomePage: React.FC = () => {
             ) : trendingMovies.length > 0 ? (
               <TrendingMoviesSlider
                 movies={trendingMovies}
-                autoplayDelay={6000} // 6 seconds between slides
+                autoplayDelay={6000}
               />
             ) : null}
           </>
