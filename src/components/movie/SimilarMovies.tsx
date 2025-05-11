@@ -23,7 +23,7 @@ const SimilarMovies: React.FC<SimilarMoviesProps> = ({ movies, isLoading }) => {
   return (
     <div className="mt-6 sm:mt-8 bg-gray-50 p-4 sm:p-6 rounded-xl">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-4">
-        Similar Movies You Might Enjoy
+        Similar Movies
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
         {movies.map((movie) => (
