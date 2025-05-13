@@ -8,11 +8,17 @@ const api = axios.create({
   },
 });
 
-export const fetchPopularMovies = async (page = 1): Promise<MoviesResponse> => {
+export const fetchPopularMovies = async (
+  page = 1,
+  limit = 18
+): Promise<MoviesResponse> => {
   const response = await api.get<MoviesResponse>("/movie/popular", {
     params: { page },
   });
-  return response.data;
+  return {
+    ...response.data,
+    results: response.data.results.slice(0, limit),
+  };
 };
 
 export const fetchTrendingMovies = async (

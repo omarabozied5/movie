@@ -29,6 +29,8 @@ const MovieDetailPage: React.FC = () => {
       const movieId = parseInt(id, 10);
       getMovieDetails(movieId);
       fetchSimilarMovies(movieId);
+
+      console.log("Similar Movies:", similarMovies);
     }
 
     const timer = setTimeout(() => {

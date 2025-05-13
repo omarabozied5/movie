@@ -11,7 +11,6 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const formattedDate = formatDate(movie.release_date);
 
-  // Use a default image if poster_path is null or undefined
   const posterPath = movie.poster_path || "";
   const imageUrl = posterPath
     ? getImageUrl(posterPath)
